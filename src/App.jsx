@@ -12,3 +12,9 @@ function App() {
 }
 
 export default App;
+
+
+// three states
+  // result
+  // operation
+  // numbers
