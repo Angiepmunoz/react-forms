@@ -11,57 +11,96 @@ function Form() {
     setOperation(e.target.value)
   }
   
-  const calculate = (array,operation) => {
+  const isValid = (array,operation) => {
     
   }
   const handleValueChange = (e) => {
     // setInputValues(e.target.id === "values" ? [e.target.value] : null)
     setInputValues(e.target.value)
-  }
-  
-  function sum (arr) {
-    let total = 0
-    for ( let num of arr){
-      total += Number(num)
-    }
-    setResult(total)
-  }
-
-  function average (arr) {
-    let total = 0
-    for (let num of arr){
-      total += Number(num)
-    }
-    setResult(total/arr.length)
-  }
-
-  function mode (arr) {
-    let hash = {}
-    for (let i = 0; i<arr.length; i++){
-      hash[arr[i]] = Number(hash[arr[i]]) ? Number(hash[arr[i]]) + 1 : 1 
-    }
-    let currentMaxCount = -Infinity
-    let currentMax = 0
-
-    for (let val in hash){
-      if (currentMaxCount < hash[val]){
-        currentMaxCount = hash[val]
-        currentMax = val
-      }
-    }
-    setResult(currentMax) 
+    console.log(inputValues)
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    
     const arr = inputValues.split(",")
+    function sum (arr) {
+      let total = 0
+      for ( let num of arr){
+        total += Number(num)
+      }
+      setResult(total)
+    }
+    function subtract (arr) {
+      let total = null
+      if(arr.length < 2){
+        setResult("Error: enter two or more values")
+      } else {
+        let total = Number(arr[0])
+        for (let i=1; i<arr.length; i++){
+          total -= Number(arr[i])
+        }
+        setResult(total)
+      }
+    }
+    function multiply (arr) {
+      let total = 1
+      for ( let num of arr){
+        total = total * Number(num)
+      }
+      setResult(total>1 ? total : 0)
+    }
+    function divide (arr) {
+      // let total = 0
+      if(arr.length < 2){
+        setResult("Error: enter two or more values (x / y)")
+      } else {
+        let total = Number(arr[0])
+        for (let i=1; i<arr.length; i++){
+          total /= Number(arr[i])
+        }
+        setResult(total)
+      }
+    }
+  
+    function average (arr) {
+      let total = 0
+      for (let num of arr){
+        total += Number(num)
+      }
+      setResult(total/arr.length)
+    }
+  
+    function mode (arr) {
+      let hash = {}
+      for (let i = 0; i<arr.length; i++){
+        hash[arr[i]] = Number(hash[arr[i]]) ? Number(hash[arr[i]]) + 1 : 1 
+      }
+      let currentMaxCount = -Infinity
+      let currentMax = 0
+  
+      for (let val in hash){
+        if (currentMaxCount < hash[val]){
+          currentMaxCount = hash[val]
+          currentMax = val
+        }
+      }
+      setResult(currentMax) 
+    }
 
     if (operation === "sum"){
       return sum(arr)
     }
+    if (operation === "subtract"){
+      return subtract(arr)
+    }
+    if (operation === "divide"){
+      return divide(arr)
+    }
     if (operation === "average"){
       return average(arr)
+    }
+    if (operation === "multiply"){
+      return multiply(arr)
     }
     if (operation === "mode"){
       return mode(arr)
@@ -73,8 +112,8 @@ function Form() {
       // e.target.id.value = ""
       setInputValues(null)
   }
-  return (
 
+  return (
     <div>
       <form onSubmit={handleSubmit}>
         <input id="values" name="values" type="text" value={inputValues} onChange={handleValueChange}/>
@@ -87,7 +126,7 @@ function Form() {
           <option value="average">average</option>
           <option value="mode">mode</option>
         </select>
-        <button type="submit"  >Calculate</button>
+        <button type="submit">Calculate</button>
       </form>
       <section id="result">
         <p>{result}</p>
