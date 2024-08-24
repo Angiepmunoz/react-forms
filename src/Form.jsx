@@ -108,14 +108,17 @@ function Form() {
     clearInput()
   }
   
-  const clearInput = (e) => {
-      // e.target.id.value = ""
-      setInputValues(null)
+  const clearInput = () => {
+    setInputValues("")
   }
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={(e)=>{
+        e.preventDefault()
+        handleSubmit(e)
+        clearInput()
+        }}>
         <input id="values" name="values" type="text" value={inputValues} onChange={handleValueChange}/>
         <select id="operation" name="operation" onChange={handleSelect}>
           <option value=""></option>
